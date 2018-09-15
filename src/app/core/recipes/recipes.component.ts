@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { RecipesService } from '../../shared/services/recipes.service';
 import { Observable } from 'rxjs';
 import { TableConfig, PagingConfig } from '../../shared/component/data-table/types/table-config';
+import { AppState } from '../../store/reducers';
+import { Store } from '@ngrx/store';
+import { LoadRecipes } from '../../store/actions/recipes.actions';
+import { recipesList } from './types/recipe.interface';
+import { tap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipes',
@@ -14,7 +19,9 @@ export class RecipesComponent implements OnInit {
   public tableConfig: TableConfig;
   public pagingConfig: PagingConfig;
 
-  constructor(private recipesService: RecipesService) { }
+  constructor(private recipesService: RecipesService, private store: Store<AppState>) {
+
+  }
 
   ngOnInit() {
     this.tableConfig = {
@@ -27,6 +34,13 @@ export class RecipesComponent implements OnInit {
       pageSize: 5,
     }
     this.recipes$ = this.recipesService.getRecipes();
+ 
+    this.recipes$
+      .pipe(
+        tap((recipes: recipesList) => this.store.dispatch(new LoadRecipes(recipes)))
+      )
+      .subscribe();
+
   }
 
 }

@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "MybuyListAdmin"
+  "defaultProject": "MybuyListAdmin",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
