@@ -1,0 +1,17 @@
+<div class="login">
+  <mat-card>
+    <label>
+      Email
+      <div>
+        <input #email [formControl]="form.controls['email']" matInput>
+      </div>
+    </label>
+    <label>
+      Password
+      <div>
+        <input #password [formControl]="form.controls['password']" matInput>
+      </div>
+    </label>
+    <button (click)="login(email.value, password.value)" mat-button>Login</button>
+  </mat-card>
+</div>

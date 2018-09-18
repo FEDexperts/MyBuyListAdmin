@@ -5,19 +5,19 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login',
+    redirectTo: 'recipes',
   },
   {
     path: 'login',
-    loadChildren: '../app/core/login/login.module#LoginModule',
+    loadChildren: '../app/auth/auth.module#AuthModule',
   },
   {
     path: 'recipes',
-    loadChildren: '../app/core/recipes/recipes.module#RecipesModule',
+    loadChildren: '../app/recipes/recipes.module#RecipesModule',
   },
   {
     path: 'ingrediants',
-    loadChildren: '../app/core/ingrediants/ingrediants.module#IngrediantsModule',
+    loadChildren: '../app/ingrediants/ingrediants.module#IngrediantsModule',
   }
 ];
 
