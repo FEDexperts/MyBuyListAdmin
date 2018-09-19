@@ -1,11 +1,19 @@
 "use strict";
 exports.__esModule = true;
 var express_1 = require("express");
+var pager_controller_1 = require("./pager.controller");
 var router = express_1.Router();
 router.get('/list', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.send(recipes);
+    console.log('getting list of recipes...', new Date());
+    var _recipes = pager_controller_1.pagerController(recipes, req.query.pageIndex, req.query.pageSize);
+    res.send({
+        metadata: {
+            totalItems: recipes.length
+        },
+        data: _recipes
+    });
 });
 exports.RecipesController = router;
 var recipes = [

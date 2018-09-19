@@ -3,15 +3,15 @@
     <label>
       Email
       <div>
-        <input #email [formControl]="form.controls['email']" matInput>
+        <input #email [formControl]="form.controls['email']">
       </div>
     </label>
     <label>
       Password
       <div>
-        <input #password [formControl]="form.controls['password']" matInput>
+        <input #password [formControl]="form.controls['password']">
       </div>
     </label>
-    <button (click)="login(email.value, password.value)" mat-button>Login</button>
+    <button (click)="login(email.value, password.value)" color="primary" mat-button>Login</button>
   </mat-card>
 </div>

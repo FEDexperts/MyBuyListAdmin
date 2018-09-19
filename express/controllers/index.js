@@ -4,6 +4,5 @@ function __export(m) {
 }
 exports.__esModule = true;
 /* app/controllers/index.ts */
-__export(require("./welcome.controller"));
 __export(require("./auth.controller"));
 __export(require("./recipes.controller"));

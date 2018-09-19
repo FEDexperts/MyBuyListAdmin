@@ -33,13 +33,14 @@ export class RecipesComponent implements OnInit {
       pageSizeOptions: [5, 10, 20],
       pageSize: 5,
     }
+
     this.recipes$ = this.recipesService.getRecipes();
  
-    this.recipes$
-      .pipe(
-        tap((recipes: recipesList) => this.store.dispatch(new LoadRecipes(recipes)))
-      )
-      .subscribe();
+    // this.recipes$
+    //   .pipe(
+    //     tap((recipes: recipesList) => this.store.dispatch(new LoadRecipes(recipes)))
+    //   )
+    //   .subscribe();
 
   }
 

@@ -15,7 +15,6 @@ export class AuthEffects {
     .pipe(
       ofType<Login>(AuthActionTypes.Login),
       filter(action => !isNullOrUndefined(action.user)),
-      tap(action => console.log(action.user)),
       tap(action => {
         localStorage.setItem('user', JSON.stringify(action.user));
         this.router.navigate(['/recipes']);

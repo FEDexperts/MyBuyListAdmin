@@ -1,7 +1,5 @@
 import * as express from 'express';
-import * as rewrite from 'express-urlrewrite';
 
-import { WelcomeController } from './controllers';
 import { AuthController } from './controllers';
 import { RecipesController } from './controllers';
 
@@ -11,7 +9,6 @@ const app: express.Application = express();
 const port = process.env.PORT || 3000;
 
 // Mount the WelcomeController at the /welcome route
-app.use('/welcome', WelcomeController);
 app.use('/login', AuthController);
 app.use('/api/recipes', RecipesController);
 

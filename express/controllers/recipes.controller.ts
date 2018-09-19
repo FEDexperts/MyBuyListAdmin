@@ -1,12 +1,23 @@
 
 import { Router, Request, Response } from 'express';
+import { pagerController } from './pager.controller';
 
 const router: Router = Router();
 
 router.get('/list', (req: Request, res: Response) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.send(recipes);
+
+    console.log('getting list of recipes...', new Date());
+
+    let _recipes = pagerController(recipes, req.query.pageIndex, req.query.pageSize);
+
+    res.send({
+        metadata: {
+            totalItems: recipes.length,
+        },
+        data: _recipes
+    });
 });
 
 export const RecipesController: Router = router;
