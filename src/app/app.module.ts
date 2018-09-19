@@ -2,10 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 
-import { MatInputModule } from '@angular/material';
+import { MatSidenavModule, MatToolbarModule, MatIconModule, MatListModule } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppInterceptor } from './app.inerceptor';
 import { SharedModule } from './shared/shared.module';
@@ -14,6 +13,7 @@ import { reducers, metaReducers } from './store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
+import { AppRoutingModule } from './app.routing';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,10 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    MatInputModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
     SharedModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../store';
 import { Login } from '../auth.actions';
 import { AuthService } from '../../shared/services/auth.service';
-import { tap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({

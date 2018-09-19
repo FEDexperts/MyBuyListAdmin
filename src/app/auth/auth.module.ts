@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './auth.effects';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './auth.reducer';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   imports: [
@@ -18,10 +19,10 @@ import { authReducer } from './auth.reducer';
     SharedModule,
     MatCardModule,
     MatInputModule,
-    StoreModule.forFeature('auth', authReducer),
+    // StoreModule.forFeature('auth', authReducer),
     EffectsModule.forFeature([AuthEffects]),
   ],
   declarations: [LoginComponent],
-  providers: [AuthEffects]
+  providers: [AuthEffects, AuthGuard]
 })
 export class AuthModule { }

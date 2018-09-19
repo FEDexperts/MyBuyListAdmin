@@ -19,16 +19,16 @@ router.get('/', function (req, res) {
     var email = req.query['email'];
     var pass = req.query['pass'];
     var user = users
-        .filter(function (user) { return user.email === email && user.pass === pass; })
-        .map(function (user) {
-        return {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            mobile: user.mobile,
-            address: user.address
-        };
-    });
+        .find(function (user) { return user.email === email && user.pass === pass; });
+    // .map(user => {
+    //     return {
+    //         id: user.id,
+    //         firstName: user.firstName,
+    //         lastName: user.lastName,
+    //         mobile: user.mobile,
+    //         address: user.address
+    //     }
+    // })
     res.send(user);
 });
 exports.AuthController = router;

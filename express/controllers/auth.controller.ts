@@ -22,16 +22,16 @@ router.get('/', (req: Request, res: Response) => {
     const pass = req.query['pass'];
 
     const user = users
-        .filter(user => user.email === email && user.pass === pass)
-        .map(user => {
-            return {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                mobile: user.mobile,
-                address: user.address
-            }
-        })
+        .find(user => user.email === email && user.pass === pass)
+        // .map(user => {
+        //     return {
+        //         id: user.id,
+        //         firstName: user.firstName,
+        //         lastName: user.lastName,
+        //         mobile: user.mobile,
+        //         address: user.address
+        //     }
+        // })
 
     res.send(user);
 });

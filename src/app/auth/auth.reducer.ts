@@ -4,21 +4,21 @@ import { User } from '../shared/interfaces/user.interface';
 
 
 export interface AuthState {
-  loggedIn: boolean,
-  userProfile: User
+  isLoggedIn: boolean,
+  user: User
 }
 
 export const initialState: AuthState = {
-  loggedIn: false,
-  userProfile: undefined
+  isLoggedIn: false,
+  user: undefined
 };
 
 export function authReducer(state: AuthState = initialState, action: AuthActions): AuthState {
   switch (action.type) {
     case AuthActionTypes.Login:
       return {
-        loggedIn: true,
-        userProfile: action.user
+        isLoggedIn: true,
+        user: action.user
       }
     default:
       return state;

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
   {
     path: 'recipes',
     loadChildren: '../app/recipes/recipes.module#RecipesModule',
+    canActivate: [AuthGuard],
   },
   {
     path: 'ingrediants',
