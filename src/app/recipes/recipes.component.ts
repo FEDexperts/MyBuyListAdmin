@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { TableConfig, PagingConfig } from '../shared/component/data-table/types/table-config';
 import { AppState } from '../store';
 import { Store } from '@ngrx/store';
-import { LoadRecipes } from './recipes.actions';
+import { GetRecipes } from './recipes.actions';
 import { recipesList } from './types/recipe.interface';
 import { tap, map } from 'rxjs/operators';
 
@@ -34,13 +34,15 @@ export class RecipesComponent implements OnInit {
       pageSize: 5,
     }
 
-    this.recipes$ = this.recipesService.getRecipes();
+    // this.recipes$ = this.recipesService.getRecipes();
  
     // this.recipes$
     //   .pipe(
     //     tap((recipes: recipesList) => this.store.dispatch(new LoadRecipes(recipes)))
     //   )
     //   .subscribe();
+
+    this.store.dispatch(new GetRecipes());
 
   }
 

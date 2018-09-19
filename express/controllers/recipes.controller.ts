@@ -10,11 +10,13 @@ router.get('/list', (req: Request, res: Response) => {
 
     console.log('getting list of recipes...', new Date());
 
-    let _recipes = pagerController(recipes, req.query.pageIndex, req.query.pageSize);
+    let _recipes = pagerController(recipes, parseInt(req.query.pageIndex), parseInt(req.query.pageSize));
 
     res.send({
         metadata: {
             totalItems: recipes.length,
+            pageIndex: req.query.pageIndex,
+            pageSize: req.query.pageSize
         },
         data: _recipes
     });

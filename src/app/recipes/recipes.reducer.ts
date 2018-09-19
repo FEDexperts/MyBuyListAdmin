@@ -14,11 +14,11 @@ export const initialState: RecipesState = {
 
 export function recipesReducer(state: RecipesState = initialState, action: RecipesActions): RecipesState {
   switch (action.type) {
-    case RecipesActionTypes.LoadRecipes:
-      return {
-        length: action.payload.length,
-        list: action.payload
-      };
+    // case RecipesActionTypes.GetRecipes:
+    //   return {
+    //     length: action.payload.length,
+    //     list: action.payload
+    //   };
     default:
       return state;
   }

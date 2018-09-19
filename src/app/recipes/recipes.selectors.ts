@@ -1,0 +1,1 @@
+export const selectRecipesState = state => state.list;
