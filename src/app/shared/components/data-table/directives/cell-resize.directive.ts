@@ -7,9 +7,8 @@ import { tap, takeUntil, map } from 'rxjs/operators';
 })
 export class MatCellResizeDirective implements OnInit, OnDestroy {
 
-  mouseDownListener;
-  mouseupListener;
   resizers = [];
+  mouseMoveSubjectStop = new Subject();
   mouseMoveStop = new Subject();
   mouseDownStop = new Subject();
   mouseUpStop = new Subject();
@@ -46,6 +45,9 @@ export class MatCellResizeDirective implements OnInit, OnDestroy {
 
         // MouseMove
         mouseMoveSubject
+          .pipe(
+            takeUntil(this.mouseMoveSubjectStop),
+          )
           .subscribe(
             (data: { clientX: number, startWidth: number }) => {
               fromEvent(this.el.nativeElement, 'mousemove')
@@ -89,8 +91,10 @@ export class MatCellResizeDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.mouseMoveSubjectStop.next();
     this.mouseDownStop.next();
     this.mouseUpStop.next();
+    this.mouseMoveSubjectStop.unsubscribe();
     this.mouseDownStop.unsubscribe();
     this.mouseUpStop.unsubscribe();
   }
