@@ -91,5 +91,7 @@ export class MatCellResizeDirective implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.mouseDownStop.next();
     this.mouseUpStop.next();
+    this.mouseDownStop.unsubscribe();
+    this.mouseUpStop.unsubscribe();
   }
 }
