@@ -3,15 +3,16 @@ import { fromEvent, Subject, Subscription } from 'rxjs';
 import { tap, takeUntil, map } from 'rxjs/operators';
 
 @Directive({
-  selector: '[resizable]'
+  selector: '[mat-cell-resize]'
 })
-export class CellResizeDirective implements OnInit, OnDestroy {
+export class MatCellResizeDirective implements OnInit, OnDestroy {
 
   mouseDownListener;
   mouseupListener;
   resizers = [];
   mouseMoveStop = new Subject();
-  subscriptions: Subscription[] = []
+  mouseDownStop = new Subject();
+  mouseUpStop = new Subject();
 
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 
@@ -19,21 +20,20 @@ export class CellResizeDirective implements OnInit, OnDestroy {
 
     let resizeName = this.el.nativeElement.hasAttribute('mat-header-row') ? 'th' : 'td';
 
-    let start: number;
-
-    const cellElements = this.el.nativeElement.children;
-    for (let cell of cellElements) {
-      let next = this.renderer.nextSibling(cell);
-      if (next) {
-        const parent = next.parentNode;
-        const elResize = this.renderer.createElement(resizeName);
-        this.renderer.addClass(elResize, 'resize');
+    const cells = this.el.nativeElement.children;
+    for (let cell of cells) {
+      let nextCell = this.renderer.nextSibling(cell);
+      if (nextCell) {
+        const cellContainer = nextCell.parentNode;
+        const resizeElement = this.renderer.createElement(resizeName);
+        this.renderer.addClass(resizeElement, 'resize');
 
         let mouseMoveSubject = new Subject();
 
         // MouseDown
-        this.subscriptions.push(fromEvent(elResize, 'mousedown')
+        fromEvent(resizeElement, 'mousedown')
           .pipe(
+            takeUntil(this.mouseDownStop),
             tap((event: MouseEvent) => {
               // console.log('mousedown', event);
               mouseMoveSubject.next({
@@ -42,8 +42,7 @@ export class CellResizeDirective implements OnInit, OnDestroy {
               });
             })
           )
-          .subscribe()
-        );
+          .subscribe();
 
         // MouseMove
         mouseMoveSubject
@@ -64,32 +63,33 @@ export class CellResizeDirective implements OnInit, OnDestroy {
             })
 
         //MouseUp
-        this.subscriptions.push(fromEvent(this.el.nativeElement, 'mouseup')
+        fromEvent(this.el.nativeElement, 'mouseup')
           .pipe(
+            takeUntil(this.mouseUpStop),
             tap((event: MouseEvent) => {
               // console.log('mouseup', event);
               this.mouseMoveStop.next();
             })
           )
-          .subscribe()
-        );
+          .subscribe();
 
         this.resizers.push({
-          parent,
-          elResize,
-          next,
+          cellContainer,
+          resizeElement,
+          nextCell,
           cell,
         });
       }
     }
 
     this.resizers.forEach(item => {
-      this.renderer.insertBefore(item.parent, item.elResize, item.next);
+      this.renderer.insertBefore(item.cellContainer, item.resizeElement, item.nextCell);
     })
 
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(us => us.unsubscribe());
+    this.mouseDownStop.next();
+    this.mouseUpStop.next();
   }
 }

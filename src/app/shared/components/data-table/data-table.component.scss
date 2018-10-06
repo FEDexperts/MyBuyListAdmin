@@ -9,6 +9,10 @@ table {
         width: 1px;
         background-color: rgba(214, 209, 209, 0.322);
         cursor: w-resize;
+        &:hover {
+            width: 5px;
+            margin: 0px 10px;
+        }
     }
     th {
         text-align: right;

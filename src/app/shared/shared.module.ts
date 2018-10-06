@@ -7,7 +7,7 @@ import { ListComponent } from './components/list/list.component';
 import { EffectsModule } from '@ngrx/effects';
 import { ListEffects } from './components/list/list.effects';
 import { LoaderComponent } from './components/loader/loader.component';
-import { CellResizeDirective } from './components/data-table/directives/cell-resize.directive';
+import { MatCellResizeDirective } from './components/data-table/directives/cell-resize.directive';
 
 const MATERIAL = [];
 
@@ -26,7 +26,7 @@ const MATERIAL = [];
     DataTableComponent, 
     ListComponent, 
     LoaderComponent,
-    CellResizeDirective
+    MatCellResizeDirective
   ],
   exports: [DataTableComponent, LoaderComponent],
 })
