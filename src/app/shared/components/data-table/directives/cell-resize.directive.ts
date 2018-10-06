@@ -1,6 +1,6 @@
 import { Directive, OnInit, ElementRef, Renderer2, OnDestroy } from '@angular/core';
-import { fromEvent, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { fromEvent, Subject, Subscription } from 'rxjs';
+import { tap, takeUntil, map } from 'rxjs/operators';
 
 @Directive({
   selector: '[resizable]'
@@ -10,6 +10,8 @@ export class CellResizeDirective implements OnInit, OnDestroy {
   mouseDownListener;
   mouseupListener;
   resizers = [];
+  mouseMoveStop = new Subject();
+  subscriptions: Subscription[] = []
 
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 
@@ -29,58 +31,55 @@ export class CellResizeDirective implements OnInit, OnDestroy {
 
         let mouseMoveSubject = new Subject();
 
-        let mouseDownSubscription = fromEvent(elResize, 'mousedown')
+        // MouseDown
+        this.subscriptions.push(fromEvent(elResize, 'mousedown')
           .pipe(
-            tap(event => {
-              console.log('mousedown', event);
-              mouseMoveSubject.next();
+            tap((event: MouseEvent) => {
+              // console.log('mousedown', event);
+              mouseMoveSubject.next({
+                clientX: event.clientX,
+                startWidth: cell.clientWidth
+              });
             })
           )
-          .subscribe();
+          .subscribe()
+        );
 
+        // MouseMove
         mouseMoveSubject
-          .subscribe(() => {
-            fromEvent(elResize, 'mousemove')
-              .subscribe(event => {
-                console.log('mousemove', event);
-              })
-          })
+          .subscribe(
+            (data: { clientX: number, startWidth: number }) => {
+              fromEvent(this.el.nativeElement, 'mousemove')
+                .pipe(
+                  takeUntil(this.mouseMoveStop),
+                  map((event: MouseEvent) => event.clientX),
+                )
+                .subscribe((clientX: number) => {
+                  // console.log('mousemove', clientX);
+                  const startclientX = data.clientX;
+                  const diffX = startclientX - clientX;
+                  const width = data.startWidth + diffX;
+                  this.renderer.setStyle(cell, 'width', width + 'px');
+                })
+            })
 
-        let mouseUpSubscription = fromEvent(elResize, 'mouseup')
+        //MouseUp
+        this.subscriptions.push(fromEvent(this.el.nativeElement, 'mouseup')
           .pipe(
-            tap(event => {
-              console.log('mouseup', event);
-              mouseMoveSubject.complete();
+            tap((event: MouseEvent) => {
+              // console.log('mouseup', event);
+              this.mouseMoveStop.next();
             })
           )
-          .subscribe();
+          .subscribe()
+        );
 
-        const resizer = {
+        this.resizers.push({
           parent,
           elResize,
           next,
           cell,
-          // onMouseDown: ((index) => {
-          //   return this.renderer.listen(elResize, 'mousedown', (target) => {
-          //     start = cell.clientWidth;
-          //     const startClientX = target.clientX;
-          //   });
-          // })(),
-          // onMouseMove: () => {
-          //   this.renderer.listen('window', 'mousemove', (target) => {
-          //     // let diff = startX - target.clientX;
-          //     // let newWidth = start + diff;
-          //     // this.renderer.setStyle(cell, 'width', newWidth + 'px');
-          //     console.log(target);
-          //   })
-          // },
-          // onMouseUp: (() => {
-          //   return this.renderer.listen(elResize, 'mouseup', (target) => {
-          //   })
-          // })()
-        }
-
-        this.resizers.push(resizer);
+        });
       }
     }
 
@@ -91,5 +90,6 @@ export class CellResizeDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.subscriptions.forEach(us => us.unsubscribe());
   }
 }
