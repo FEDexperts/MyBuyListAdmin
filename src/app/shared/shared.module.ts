@@ -1,8 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataTableComponent } from './component/data-table/data-table.component';
-import { MatTableModule, MatPaginatorModule, MatTabsModule, MatButtonModule } from '@angular/material';
+import { DataTableComponent } from './components/data-table/data-table.component';
+import { MatTableModule, MatPaginatorModule, MatTabsModule, MatButtonModule, MatProgressSpinnerModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import { ListComponent } from './components/list/list.component';
+import { EffectsModule } from '@ngrx/effects';
+import { ListEffects } from './components/list/list.effects';
+import { LoaderComponent } from './components/loader/loader.component';
+import { CellResizeDirective } from './components/data-table/directives/cell-resize.directive';
+
+const MATERIAL = [];
 
 @NgModule({
   imports: [
@@ -11,9 +18,16 @@ import { RouterModule } from '@angular/router';
     MatTableModule,
     MatPaginatorModule,
     MatTabsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    EffectsModule.forFeature([ListEffects])
   ],
-  declarations: [DataTableComponent],
-  exports: [DataTableComponent],
+  declarations: [
+    DataTableComponent, 
+    ListComponent, 
+    LoaderComponent,
+    CellResizeDirective
+  ],
+  exports: [DataTableComponent, LoaderComponent],
 })
 export class SharedModule { }

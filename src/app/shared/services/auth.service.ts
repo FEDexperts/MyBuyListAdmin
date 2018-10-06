@@ -14,4 +14,8 @@ export class AuthService {
   public login(credentials: Credentials): Observable<User> {
     return this.api.get(`${environment.local}/login`, credentials)
   }
+
+  public getUsers(params: {pageIndex: number, pageSize: number}) {
+    return this.api.get(`${environment.local}/api/users/list`, params);
+  }
 }

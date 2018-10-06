@@ -8,8 +8,6 @@ router.get('/list', (req: Request, res: Response) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-    console.log('getting list of recipes...', new Date());
-
     let _recipes = pagerController(recipes, parseInt(req.query.pageIndex), parseInt(req.query.pageSize));
 
     res.send({
@@ -18,7 +16,7 @@ router.get('/list', (req: Request, res: Response) => {
             pageIndex: req.query.pageIndex,
             pageSize: req.query.pageSize
         },
-        data: _recipes
+        results: _recipes
     });
 });
 

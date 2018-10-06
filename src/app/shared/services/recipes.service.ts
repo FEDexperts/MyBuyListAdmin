@@ -10,8 +10,8 @@ export class RecipesService {
 
   constructor(private api: ApiService) { }
 
-  public getRecipes(): Observable<any[]> {
-    return this.api.get(`${environment.local}/api/recipes/list`);
+  public getRecipes(params: {pageIndex: number, pageSize: number}): Observable<any[]> {
+    return this.api.get(`${environment.local}/api/recipes/list`, params);
   }
 
   public getIngrediant(): Observable<any[]> {

@@ -1,6 +1,10 @@
+export interface Column {
+    title: string;
+    field: string;
+}
+
 export interface TableConfig {
-    displayColumns: string[],
-    headerTitles: string[],
+    columns: Column[];
 }
 
 export interface PagingConfig {

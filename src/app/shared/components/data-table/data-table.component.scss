@@ -1,0 +1,31 @@
+:host {
+    direction: rtl;
+}
+
+table {
+    width: 100%;
+    padding: 5px;
+    .resize {
+        width: 3px;
+        // background-color: rgba(214, 209, 209, 0.322);
+        background-color: red;
+        cursor: w-resize;
+    }
+    th {
+        text-align: right;
+        &.mat-header-cell {
+            padding-left: 0px;
+        }
+    }
+    td {
+        &.mat-cell {
+            padding-left: 0px;
+        }
+    }
+    tr.mat-row {
+        &:hover {
+            background-color: rgba(211, 206, 206, 0.24);
+            cursor: pointer;
+        }
+    }
+}

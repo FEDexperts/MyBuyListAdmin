@@ -1,24 +1,24 @@
-import { RecipesActions, RecipesActionTypes } from './recipes.actions';
+import { recipesActions, RecipesActionTypes } from './recipes.actions';
 import { recipesList } from './types/recipe.interface';
 
 
 export interface RecipesState {
-  length: number,
-  list: recipesList
+  metadata: any,
+  results: recipesList
 }
 
 export const initialState: RecipesState = {
-  length: undefined,
-  list: []
+  metadata: undefined,
+  results: []
 };
 
-export function recipesReducer(state: RecipesState = initialState, action: RecipesActions): RecipesState {
+export function recipesReducer(state: RecipesState = initialState, action: recipesActions): RecipesState {
   switch (action.type) {
-    // case RecipesActionTypes.GetRecipes:
-    //   return {
-    //     length: action.payload.length,
-    //     list: action.payload
-    //   };
+    case RecipesActionTypes.Success:
+      return {
+        metadata: action.payload.metadata,
+        results: action.payload.results
+      };
     default:
       return state;
   }

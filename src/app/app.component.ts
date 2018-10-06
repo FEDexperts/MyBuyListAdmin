@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AppState } from './store';
-import { map } from 'rxjs/operators';
+import { map, tap, switchMap, filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Logout } from './auth/auth.actions';
 import { isLoggedIn, isLoggedOut } from './auth/auth.selectors';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,25 @@ export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>, private router: Router) { }
+  menus = [
+    {
+      route: '/users',
+      icon: 'person',
+      title: 'Users'
+    },
+    {
+      route: '/recipes',
+      icon: 'receipt',
+      title: 'Recips'
+    },
+    {
+      route: '/ingrediants',
+      icon: 'list',
+      title: 'Ingrediants'
+    }
+  ]
+
+  constructor(private store: Store<AppState>, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.isLoggedIn$ = this.store

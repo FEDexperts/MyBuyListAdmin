@@ -1,0 +1,4 @@
+<div>
+  <app-data-table [dataStream$]="users$" [tableConfig]="tableConfig" [pagingConfig]="pagingConfig"
+    (onPageChange)="pageChanged($event)"></app-data-table>
+</div>

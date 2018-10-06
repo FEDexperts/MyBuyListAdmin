@@ -1,7 +1,6 @@
 import * as express from 'express';
 
-import { AuthController } from './controllers';
-import { RecipesController } from './controllers';
+import { AuthController, RecipesController, UsersController } from './controllers';
 
 // Create a new express application instance
 const app: express.Application = express();
@@ -11,6 +10,7 @@ const port = process.env.PORT || 3000;
 // Mount the WelcomeController at the /welcome route
 app.use('/login', AuthController);
 app.use('/api/recipes', RecipesController);
+app.use('/api/users', UsersController);
 
 // Serve the application at the given port
 app.listen(port, () => {

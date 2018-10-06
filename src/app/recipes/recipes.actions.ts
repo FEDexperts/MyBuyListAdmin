@@ -1,12 +1,23 @@
 import { Action } from '@ngrx/store';
-import { recipesList } from './types/recipe.interface';
 
 export enum RecipesActionTypes {
-  Get = '[Recipes] Get'
+  Get = '[Recipes] Get',
+  Success = '[Recipes] Get success',
+  Error = '[Recipes] Get failure',
 }
 
 export class GetRecipes implements Action {
   readonly type = RecipesActionTypes.Get;
+
+  constructor(public payload?: any) { }
 }
 
-export type RecipesActions = GetRecipes;
+export class GetRecipesSuccess implements Action {
+  readonly type = RecipesActionTypes.Success;
+
+  constructor(public payload: any) { }
+}
+
+export type recipesActions =
+  GetRecipes |
+  GetRecipesSuccess;

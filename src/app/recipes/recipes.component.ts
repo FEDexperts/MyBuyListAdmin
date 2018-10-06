@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RecipesService } from '../shared/services/recipes.service';
 import { Observable } from 'rxjs';
-import { TableConfig, PagingConfig } from '../shared/component/data-table/types/table-config';
+import { TableConfig, PagingConfig } from '../shared/components/data-table/types/table-config';
 import { AppState } from '../store';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { GetRecipes } from './recipes.actions';
-import { recipesList } from './types/recipe.interface';
-import { tap, map } from 'rxjs/operators';
+import { getRecipesSuccessState, getRecipesMetadataState } from './recipes.selectors';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipes',
@@ -15,35 +14,56 @@ import { tap, map } from 'rxjs/operators';
 })
 export class RecipesComponent implements OnInit {
 
-  public recipes$: Observable<any[]>;
+  public recipesResults$: Observable<any[]>;
+  public recipesMetadata$: Observable<any>;
   public tableConfig: TableConfig;
-  public pagingConfig: PagingConfig;
+  public pagingConfig: PagingConfig = {
+    pageIndex: 0,
+    pageSizeOptions: [5, 10, 20],
+    pageSize: 5,
+    totalItems: 0
+  };
 
-  constructor(private recipesService: RecipesService, private store: Store<AppState>) {
+  constructor(private store: Store<AppState>) {
+    this.recipesResults$ = store
+      .pipe(
+        select(getRecipesSuccessState)
+      )
 
+    store
+      .pipe(
+        select(getRecipesMetadataState),
+        filter(metadata => metadata)
+      )
+      .subscribe(metadata => {
+        this.pagingConfig.totalItems = metadata.totalItems;
+      })
   }
 
   ngOnInit() {
     this.tableConfig = {
-      displayColumns: ['RecipeId', 'RecipeName'],
-      headerTitles: ['מספר מתכון', 'שם מתכון'],
-    }
-    this.pagingConfig = {
-      pageIndex: 0,
-      pageSizeOptions: [5, 10, 20],
-      pageSize: 5,
+      columns: [
+        {
+          title: 'מספר מתכון',
+          field: 'RecipeId',
+        },
+        {
+          title: 'שם מתכון',
+          field: 'RecipeName',
+        },
+        {
+          title: 'מצרכים',
+          field: 'Ingrediants',
+        }
+      ]
     }
 
-    // this.recipes$ = this.recipesService.getRecipes();
- 
-    // this.recipes$
-    //   .pipe(
-    //     tap((recipes: recipesList) => this.store.dispatch(new LoadRecipes(recipes)))
-    //   )
-    //   .subscribe();
 
     this.store.dispatch(new GetRecipes());
+  }
 
+  pageChanged(page: any) {
+    this.store.dispatch(new GetRecipes(page));
   }
 
 }

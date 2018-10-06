@@ -1,3 +1,4 @@
 <div>
-  <app-data-table [dataStream$]="recipes$" [tableConfig]="tableConfig" [pagingConfig]="pagingConfig"></app-data-table>
+  <app-data-table [dataStream$]="recipesResults$" [tableConfig]="tableConfig" [pagingConfig]="pagingConfig"
+    (onPageChange)="pageChanged($event)"></app-data-table>
 </div>

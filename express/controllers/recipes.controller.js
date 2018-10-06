@@ -6,7 +6,6 @@ var router = express_1.Router();
 router.get('/list', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    console.log('getting list of recipes...', new Date());
     var _recipes = pager_controller_1.pagerController(recipes, parseInt(req.query.pageIndex), parseInt(req.query.pageSize));
     res.send({
         metadata: {
@@ -14,7 +13,7 @@ router.get('/list', function (req, res) {
             pageIndex: req.query.pageIndex,
             pageSize: req.query.pageSize
         },
-        data: _recipes
+        results: _recipes
     });
 });
 exports.RecipesController = router;

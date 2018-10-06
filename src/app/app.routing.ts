@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'recipes',
+    redirectTo: 'users',
   },
   {
     path: 'login',
@@ -15,6 +15,14 @@ const routes: Routes = [
   {
     path: 'recipes',
     loadChildren: '../app/recipes/recipes.module#RecipesModule',
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Recipes'
+    }
+  },
+  {
+    path: 'users',
+    loadChildren: '../app/users/users.module#UsersModule',
     canActivate: [AuthGuard],
   },
   {
