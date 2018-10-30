@@ -7,3 +7,5 @@ exports.__esModule = true;
 __export(require("./auth.controller"));
 __export(require("./recipes.controller"));
 __export(require("./users.controller"));
+__export(require("./food.controller"));
+__export(require("./lists.controller"));

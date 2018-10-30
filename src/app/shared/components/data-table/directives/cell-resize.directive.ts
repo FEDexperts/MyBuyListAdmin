@@ -7,7 +7,7 @@ import { tap, takeUntil, map } from 'rxjs/operators';
 })
 export class MatCellResizeDirective implements OnInit, OnDestroy {
 
-  resizers = [];
+  resizeList = [];
   mouseMoveSubjectStop = new Subject();
   mouseMoveStop = new Subject();
   mouseDownStop = new Subject();
@@ -17,17 +17,17 @@ export class MatCellResizeDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    let resizeName = this.el.nativeElement.hasAttribute('mat-header-row') ? 'th' : 'td';
+    const resizeName = this.el.nativeElement.hasAttribute('mat-header-row') ? 'th' : 'td';
 
     const cells = this.el.nativeElement.children;
-    for (let cell of cells) {
-      let nextCell = this.renderer.nextSibling(cell);
+    for (const cell of cells) {
+      const nextCell = this.renderer.nextSibling(cell);
       if (nextCell) {
         const cellContainer = nextCell.parentNode;
         const resizeElement = this.renderer.createElement(resizeName);
         this.renderer.addClass(resizeElement, 'resize');
 
-        let mouseMoveSubject = new Subject();
+        const mouseMoveSubject = new Subject();
 
         // MouseDown
         fromEvent(resizeElement, 'mousedown')
@@ -64,7 +64,7 @@ export class MatCellResizeDirective implements OnInit, OnDestroy {
                 })
             })
 
-        //MouseUp
+        // MouseUp
         fromEvent(this.el.nativeElement, 'mouseup')
           .pipe(
             takeUntil(this.mouseUpStop),
@@ -75,7 +75,7 @@ export class MatCellResizeDirective implements OnInit, OnDestroy {
           )
           .subscribe();
 
-        this.resizers.push({
+        this.resizeList.push({
           cellContainer,
           resizeElement,
           nextCell,
@@ -84,7 +84,7 @@ export class MatCellResizeDirective implements OnInit, OnDestroy {
       }
     }
 
-    this.resizers.forEach(item => {
+    this.resizeList.forEach(item => {
       this.renderer.insertBefore(item.cellContainer, item.resizeElement, item.nextCell);
     })
 

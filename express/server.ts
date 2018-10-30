@@ -1,6 +1,12 @@
 import * as express from 'express';
 
-import { AuthController, RecipesController, UsersController } from './controllers';
+import {
+    AuthController,
+    RecipesController,
+    UsersController,
+    FoodController,
+    ListsController
+} from './controllers';
 
 // Create a new express application instance
 const app: express.Application = express();
@@ -11,6 +17,8 @@ const port = process.env.PORT || 3000;
 app.use('/login', AuthController);
 app.use('/api/recipes', RecipesController);
 app.use('/api/users', UsersController);
+app.use('/api/foods', FoodController);
+app.use('/api/lists', ListsController);
 
 // Serve the application at the given port
 app.listen(port, () => {
