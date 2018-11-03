@@ -10,6 +10,15 @@ router.get('/list', (req: Request, res: Response) => {
     res.send(foods);
 });
 
+router.get('/search', (req: Request, res: Response) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    const _foods = foods.filter(item => item.FoodName.includes(req.query.searchValue))
+
+    res.send(_foods);
+});
+
 export const FoodController: Router = router;
 
 const foods = [

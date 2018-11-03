@@ -7,6 +7,12 @@ router.get('/list', function (req, res) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.send(foods);
 });
+router.get('/search', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    var _foods = foods.filter(function (item) { return item.FoodName.includes(req.query.searchValue); });
+    res.send(_foods);
+});
 exports.FoodController = router;
 var foods = [
     {
