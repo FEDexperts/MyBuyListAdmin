@@ -1,15 +1,24 @@
 import { Router, Request, Response } from 'express';
+
 const router: Router = Router();
+
 router.get('/missing/1', (req: Request, res: Response) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.send(missing);
+});
+router.post('/missing/1', (req: Request, res: Response) => {
+    console.log('Add new item => ', req.body);
+
+    missing.push({
+        listId: 2,
+        ownerId: 1,
+        itemId: req.body.FoodId,
+        itemName: req.body.FoodName,
+        itemUnit: ""
+    });
 
     res.send(missing);
 });
 router.get('/missing/1/single/', (req: Request, res: Response) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
     console.log('Get single item', req.query.foodId);
 
     const _missing = missing.find(item => item.itemId == req.query.foodId);
@@ -17,9 +26,6 @@ router.get('/missing/1/single/', (req: Request, res: Response) => {
     res.send(_missing);
 });
 router.get('/shopping', (req: Request, res: Response) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
     res.send(shopping);
 });
 export const ListsController = router;

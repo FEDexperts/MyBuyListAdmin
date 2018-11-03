@@ -3,20 +3,25 @@ exports.__esModule = true;
 var express_1 = require("express");
 var router = express_1.Router();
 router.get('/missing/1', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.send(missing);
+});
+router.post('/missing/1', function (req, res) {
+    console.log('Add new item => ', req.body);
+    missing.push({
+        listId: 2,
+        ownerId: 1,
+        itemId: req.body.FoodId,
+        itemName: req.body.FoodName,
+        itemUnit: ""
+    });
     res.send(missing);
 });
 router.get('/missing/1/single/', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log('Get single item', req.query.foodId);
     var _missing = missing.find(function (item) { return item.itemId == req.query.foodId; });
     res.send(_missing);
 });
 router.get('/shopping', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.send(shopping);
 });
 exports.ListsController = router;
