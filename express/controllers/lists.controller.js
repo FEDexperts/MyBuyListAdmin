@@ -16,6 +16,14 @@ router.post('/missing/1', function (req, res) {
     });
     res.send(missing);
 });
+router["delete"]('/missing/1', function (req, res) {
+    console.log('Remove item => ', req.query);
+    var index = missing.findIndex(function (item) { return item.itemId == req.query.itemId; });
+    if (index !== -1) {
+        missing.splice(index, 1);
+    }
+    res.send(missing);
+});
 router.get('/missing/1/single/', function (req, res) {
     console.log('Get single item', req.query.foodId);
     var _missing = missing.find(function (item) { return item.itemId == req.query.foodId; });

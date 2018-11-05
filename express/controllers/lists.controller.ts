@@ -18,6 +18,16 @@ router.post('/missing/1', (req: Request, res: Response) => {
 
     res.send(missing);
 });
+router.delete('/missing/1', (req: Request, res: Response) => {
+    console.log('Remove item => ', req.query);
+
+    const index = missing.findIndex(item => item.itemId == req.query.itemId);
+    if (index !== -1) {
+        missing.splice(index, 1);
+    }
+
+    res.send(missing);
+});
 router.get('/missing/1/single/', (req: Request, res: Response) => {
     console.log('Get single item', req.query.foodId);
 
@@ -30,7 +40,7 @@ router.get('/shopping', (req: Request, res: Response) => {
 });
 export const ListsController = router;
 
-const missing = [
+let missing = [
     {
         "listId": 2,
         "ownerId": 1,
@@ -54,7 +64,7 @@ const missing = [
     }
 ];
 
-const shopping = [
+let shopping = [
     {
         name: 'חלב',
         unit: 'יחידה',
