@@ -2,10 +2,10 @@ import { Router, Request, Response } from 'express';
 
 const router: Router = Router();
 
-router.get('/missing/1', (req: Request, res: Response) => {
+router.get('/missing/2', (req: Request, res: Response) => {
     res.send(missing);
 });
-router.post('/missing/1', (req: Request, res: Response) => {
+router.post('/missing/2', (req: Request, res: Response) => {
     console.log('Add new item => ', req.body);
 
     missing.push({
@@ -18,7 +18,7 @@ router.post('/missing/1', (req: Request, res: Response) => {
 
     res.send(missing);
 });
-router.delete('/missing/1', (req: Request, res: Response) => {
+router.delete('/missing/2', (req: Request, res: Response) => {
     console.log('Remove item => ', req.query);
 
     const index = missing.findIndex(item => item.itemId == req.query.itemId);
@@ -28,7 +28,11 @@ router.delete('/missing/1', (req: Request, res: Response) => {
 
     res.send(missing);
 });
-router.get('/missing/1/single/', (req: Request, res: Response) => {
+router.patch('/missing/2', (req: Request, res: Response) => {
+    console.log('update partial item', req.body);
+
+});
+router.get('/missing/2/single/', (req: Request, res: Response) => {
     console.log('Get single item', req.query.foodId);
 
     const _missing = missing.find(item => item.itemId == req.query.foodId);

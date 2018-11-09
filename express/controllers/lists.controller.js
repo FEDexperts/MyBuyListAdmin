@@ -2,10 +2,10 @@
 exports.__esModule = true;
 var express_1 = require("express");
 var router = express_1.Router();
-router.get('/missing/1', function (req, res) {
+router.get('/missing/2', function (req, res) {
     res.send(missing);
 });
-router.post('/missing/1', function (req, res) {
+router.post('/missing/2', function (req, res) {
     console.log('Add new item => ', req.body);
     missing.push({
         listId: 2,
@@ -16,7 +16,7 @@ router.post('/missing/1', function (req, res) {
     });
     res.send(missing);
 });
-router["delete"]('/missing/1', function (req, res) {
+router["delete"]('/missing/2', function (req, res) {
     console.log('Remove item => ', req.query);
     var index = missing.findIndex(function (item) { return item.itemId == req.query.itemId; });
     if (index !== -1) {
@@ -24,7 +24,10 @@ router["delete"]('/missing/1', function (req, res) {
     }
     res.send(missing);
 });
-router.get('/missing/1/single/', function (req, res) {
+router.patch('/missing/2', function (req, res) {
+    console.log('update partial item', req.body);
+});
+router.get('/missing/2/single/', function (req, res) {
     console.log('Get single item', req.query.foodId);
     var _missing = missing.find(function (item) { return item.itemId == req.query.foodId; });
     res.send(_missing);
